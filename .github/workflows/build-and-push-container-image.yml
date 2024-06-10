@@ -11,7 +11,7 @@ on:
       QUAY_PASSWORD:
         required: true
 jobs:
-  build-and-push-image:
+  build-and-push-container-image:
     name: Build and push container image
     runs-on: ubuntu-22.04
     steps:
@@ -34,7 +34,7 @@ jobs:
         run: echo "timestamp=$(date +%Y%m%d%H%M%S)" >> "$GITHUB_OUTPUT"
 
       - name: Build and push container image
-        id: build-and-push
+        id: build-and-push-container-image
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: docker
