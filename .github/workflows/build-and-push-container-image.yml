@@ -5,7 +5,7 @@ on:
       context:
         required: true
         type: string
-      labels:
+      image-name:
         required: true
         type: string
     secrets:
@@ -43,12 +43,10 @@ jobs:
           context: ${{ inputs.context }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            latest
-            ${{ github.ref_name }}
-            ${{ github.sha }}
-            ${{ github.ref_name }}-${{ github.sha }}
-            ${{ github.ref_name }}-${{ github.sha }}-${{ steps.timestamp.outputs.timestamp }}
-          labels: |
-            ${{ inputs.labels }}
+            quay.io/nebulous/${{ inputs.image-name }}:latest
+            quay.io/nebulous/${{ inputs.image-name }}:${{ github.ref_name }}
+            quay.io/nebulous/${{ inputs.image-name }}:${{ github.sha }}
+            quay.io/nebulous/${{ inputs.image-name }}:${{ github.ref_name }}-${{ github.sha }}
+            quay.io/nebulous/${{ inputs.image-name }}:${{ github.ref_name }}-${{ github.sha }}-${{ steps.timestamp.outputs.timestamp }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
