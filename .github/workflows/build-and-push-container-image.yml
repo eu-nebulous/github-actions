@@ -36,6 +36,10 @@ jobs:
         id: timestamp
         run: echo "timestamp=$(date +%Y%m%d%H%M%S)" >> "$GITHUB_OUTPUT"
 
+      - name: Set tag-friendly ref name
+        id: tagfriendly-ref
+        run: echo "ref_name=$(echo '${{ github.ref_name }}' | sed 's|/|-|g')" >> "$GITHUB_OUTPUT"
+
       - name: Build and push container image
         id: build-and-push-container-image
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
@@ -44,9 +48,9 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             quay.io/nebulous/${{ inputs.image-name }}:latest
-            quay.io/nebulous/${{ inputs.image-name }}:${{ contains(github.ref_name, '/') && 'FUBAR' || github.ref_name }}
+            quay.io/nebulous/${{ inputs.image-name }}:${{ steps.tagfriendly-ref.outputs.ref_name }}
             quay.io/nebulous/${{ inputs.image-name }}:${{ github.sha }}
-            quay.io/nebulous/${{ inputs.image-name }}:${{ contains(github.ref_name, '/') && 'FUBAR' || github.ref_name }}-${{ github.sha }}
-            quay.io/nebulous/${{ inputs.image-name }}:${{ contains(github.ref_name, '/') && 'FUBAR' || github.ref_name }}-${{ github.sha }}-${{ steps.timestamp.outputs.timestamp }}
+            quay.io/nebulous/${{ inputs.image-name }}:${{ steps.tagfriendly-ref.outputs.ref_name }}-${{ github.sha }}
+            quay.io/nebulous/${{ inputs.image-name }}:${{ steps.tagfriendly-ref.outputs.ref_name }}-${{ github.sha }}-${{ steps.timestamp.outputs.timestamp }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
