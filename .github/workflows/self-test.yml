@@ -1,0 +1,14 @@
+name: Test the workflows
+on:
+  # not used on pushes to avoid actual pushing of images
+  pull_request:
+    branches:
+      - main
+jobs:
+  build-and-push-scratch:
+    name: Build and push scratch
+    uses: ./.github/workflows/build-and-push-container-image.yml
+    with:
+      context: test/build-and-push-container-image
+      image-name: scratch
+    secrets: inherit
