@@ -10,9 +10,9 @@ on:
         type: string
     secrets:
       QUAY_USERNAME:
-        required: true
+        required: false
       QUAY_PASSWORD:
-        required: true
+        required: false
 jobs:
   build-and-push-container-image:
     name: Build and push container image
