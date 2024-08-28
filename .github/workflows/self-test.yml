@@ -12,3 +12,12 @@ jobs:
       context: test/build-and-push-container-image
       image-name: scratch
     secrets: inherit
+  build-and-push-scratch-with-args:
+    name: Build and push scratch with args
+    uses: ./.github/workflows/build-and-push-container-image.yml
+    with:
+      context: test/build-and-push-container-image
+      image-name: scratch
+      build-args: |
+        var=val
+    secrets: inherit
