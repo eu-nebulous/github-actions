@@ -21,3 +21,10 @@ jobs:
       build-args: |
         var=val
     secrets: inherit
+  publish-java-library-snapshot:
+    name: Publish Java library snapshot
+    uses: ./.github/workflows/publish-java-library-snapshot.yml
+    with:
+      context: test/publish-java-library-snapshot
+      java-version: 17
+    secrets: inherit
